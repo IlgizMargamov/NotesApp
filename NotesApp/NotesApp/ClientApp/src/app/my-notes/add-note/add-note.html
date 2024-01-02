@@ -1,0 +1,21 @@
+﻿<div class="modal-header">
+  <h5 class="modal-title" id="modalLabel">Add note</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="onNoClick()"
+  ></button>
+</div>
+<div class="modal-body">
+  <label for="header">Header</label>
+  <input id="header" type="text" [(ngModel)]="data.header">
+  <label for="description">Description</label>
+  <input id="description" type="text" [(ngModel)]="data.description">
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="onNoClick()">
+    Close
+  </button>
+  <button type="button" class="btn btn-primary" (click)="onAddClick()">Add note</button>
+</div>

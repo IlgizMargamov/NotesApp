@@ -1,0 +1,29 @@
+﻿<h1 id="tableLabel">Your notes</h1>
+
+<p *ngIf="!notes?.length"><em>Loading...</em></p>
+
+<button mat-raised-button (click)="openAddModal()">Add note</button>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="notes.length">
+  <thead>
+  <tr>
+    <th>Id</th>
+    <th>Date</th>
+    <th>Header</th>
+    <th>Description</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let note of notes">
+    <td>{{ note.id }}</td>
+    <td>{{ note.date }}</td>
+    <td>{{ note.header }}</td>
+    <td>{{ note.description }}</td>
+    <td>
+      <button mat-raised-button (click)="openEditModal(note.id, note.header, note.description)">Edit note</button>
+      <button mat-raised-button (click)="deleteNote(note.id)">Delete note</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
