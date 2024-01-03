@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NotesApp.DTO;
+using NotesApp.DTO.Note;
 using NotesApp.Entities;
 
 namespace NotesApp.Controllers;
 
 [ApiController]
-[Route("[controller]")]
 public class NoteController : BaseController
 {
     [HttpGet]
@@ -13,25 +14,14 @@ public class NoteController : BaseController
         return _context.Notes.ToArray();
     }
 
-    public class EditInput
-    {
-        public int Id { get; set; }
-        public string? Header { get; set; }
-        public string? Description { get; set; }
-    }
-    
-    public class PostInput
-    {
-        public string Header { get; set; }
-        public string Description { get; set; }
-    }
     [HttpPost]
-    public bool Post(PostInput input)
+    public bool Post(PostNoteInput input)
     {
         _context.Add(new Note
         {
             Header = input.Header,
-            Description = input.Description
+            Description = input.Description,
+            CreationDateTime = DateTime.Now
         });
 
         _context.SaveChanges();
@@ -39,7 +29,7 @@ public class NoteController : BaseController
     }
 
     [HttpPatch]
-    public bool Edit(EditInput input)
+    public bool Edit(EditNoteInput input)
     {
         var note = _context.Notes.FirstOrDefault(x => x.Id == input.Id);
         if (note == null)
@@ -71,6 +61,26 @@ public class NoteController : BaseController
         }
 
         _context.Remove(note);
+        _context.SaveChanges();
+        return true;
+    }
+
+    [HttpPatch]
+    public bool SetTag(int noteId, int tagId)
+    {
+        var tag = _context.Tags.FirstOrDefault(x => x.Id == tagId);
+        if (tag == null)
+        {
+            return false;
+        }
+
+        var note = _context.Notes.FirstOrDefault(x => x.Id == noteId);
+        if (note == null || note.Tags.Any(x => x.Id == tagId))
+        {
+            return false;
+        }
+
+        note.Tags.Add(tag);
         _context.SaveChanges();
         return true;
     }

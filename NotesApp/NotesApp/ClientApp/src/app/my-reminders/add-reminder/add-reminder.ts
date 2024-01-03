@@ -6,18 +6,18 @@ import {
 import {HttpClient} from "@angular/common/http";
 
 export interface DialogData {
-  header: string;
-  description: string;
+  noteId: number;
+  dueDateTime: string;
 }
 
 @Component({
-  selector: 'add-note-modal',
-  templateUrl: './add-note.html',
+  selector: 'add-reminder-modal',
+  templateUrl: './add-reminder.html',
 })
-export class AddNoteModal {
+export class AddReminderModal {
   constructor(private readonly http: HttpClient,
     @Inject('BASE_URL') private readonly baseUrl: string,
-    public dialogRef: MatDialogRef<AddNoteModal>,
+    public dialogRef: MatDialogRef<AddReminderModal>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) {
     this.baseUrl = baseUrl;
@@ -28,14 +28,14 @@ export class AddNoteModal {
   }
 
   onAddClick():void{
-    if (this.data.header.length==0 || this.data.description.length==0){
+    if (this.data.noteId==0 || this.data.dueDateTime.length==0){
       alert("Please enter header and description");
       return;
     }
 
-    this.http.post<boolean>(this.baseUrl+"note/Post", {
-      Header: this.data.header,
-      Description: this.data.description
+    this.http.post<boolean>(this.baseUrl+"reminder/Create", {
+      noteId: this.data.noteId,
+      dueDateTime: this.data.dueDateTime
     }).subscribe(x=>{
       location.reload();
     }, error => console.error(error))

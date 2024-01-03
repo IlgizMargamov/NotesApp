@@ -3,7 +3,6 @@
 namespace NotesApp.Controllers;
 
 [ApiController]
-[Route("[controller]")]
 public class WeatherForecastController : BaseController
 {
     private static readonly string[] Summaries = {

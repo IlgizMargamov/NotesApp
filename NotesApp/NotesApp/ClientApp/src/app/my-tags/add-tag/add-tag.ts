@@ -7,17 +7,16 @@ import {HttpClient} from "@angular/common/http";
 
 export interface DialogData {
   header: string;
-  description: string;
 }
 
 @Component({
-  selector: 'add-note-modal',
-  templateUrl: './add-note.html',
+  selector: 'add-tag-modal',
+  templateUrl: './add-tag.html',
 })
-export class AddNoteModal {
+export class AddTagModal {
   constructor(private readonly http: HttpClient,
     @Inject('BASE_URL') private readonly baseUrl: string,
-    public dialogRef: MatDialogRef<AddNoteModal>,
+    public dialogRef: MatDialogRef<AddTagModal>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) {
     this.baseUrl = baseUrl;
@@ -28,14 +27,13 @@ export class AddNoteModal {
   }
 
   onAddClick():void{
-    if (this.data.header.length==0 || this.data.description.length==0){
-      alert("Please enter header and description");
+    if (this.data.header.length==0){
+      alert("Please enter header");
       return;
     }
 
-    this.http.post<boolean>(this.baseUrl+"note/Post", {
+    this.http.post<boolean>(this.baseUrl+"tag/Post", {
       Header: this.data.header,
-      Description: this.data.description
     }).subscribe(x=>{
       location.reload();
     }, error => console.error(error))

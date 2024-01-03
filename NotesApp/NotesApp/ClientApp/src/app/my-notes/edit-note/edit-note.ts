@@ -35,7 +35,7 @@ export class EditNoteModal {
       alert("Please enter header and description");
       return;
     }
-    this.httpClient.patch<boolean>(this.baseUrl+"note", {
+    this.httpClient.patch<boolean>(this.baseUrl+"note/Edit", {
       id: this.data.id,
       header: this.data.header,
       description: this.data.description
@@ -44,3 +44,4 @@ export class EditNoteModal {
     }, error => console.error(error))
   }
 }
+

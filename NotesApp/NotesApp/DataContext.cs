@@ -5,7 +5,15 @@ namespace NotesApp;
 
 public class DataContext : DbContext
 {
+    #region Sets
+
     public DbSet<Note> Notes { get; set; }
+    
+    public DbSet<Tag> Tags { get; set; }
+
+    public DbSet<Reminder> Reminders { get; set; }
+
+    #endregion
     
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

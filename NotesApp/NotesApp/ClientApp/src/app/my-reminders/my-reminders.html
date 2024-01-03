@@ -1,0 +1,21 @@
+﻿<h1 id="tableLabel">Your reminders</h1>
+
+<p *ngIf="!reminders?.length"><em>Loading...</em></p>
+
+<button mat-raised-button (click)="openAddModal()">Add reminder</button>
+
+<div class="notes-container-wrapper">
+  <div class="notes-container" *ngIf="reminders.length">
+    <div class="notes">
+      <div class="notes-row">
+        <div class="notes-column" *ngFor="let reminder of reminders">
+          <div class="notes-card">
+            <h3 class="notes-card-header">{{reminder.note.header | shorten:15 }}</h3>
+            <p class="notes-card-description">{{reminder.dueDateTime}}</p>
+            <button mat-raised-button (click)="deleteNote(reminder.id)">Delete note</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

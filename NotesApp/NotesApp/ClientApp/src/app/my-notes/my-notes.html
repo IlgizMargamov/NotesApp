@@ -4,26 +4,20 @@
 
 <button mat-raised-button (click)="openAddModal()">Add note</button>
 
-<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="notes.length">
-  <thead>
-  <tr>
-    <th>Id</th>
-    <th>Date</th>
-    <th>Header</th>
-    <th>Description</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let note of notes">
-    <td>{{ note.id }}</td>
-    <td>{{ note.date }}</td>
-    <td>{{ note.header }}</td>
-    <td>{{ note.description }}</td>
-    <td>
-      <button mat-raised-button (click)="openEditModal(note.id, note.header, note.description)">Edit note</button>
-      <button mat-raised-button (click)="deleteNote(note.id)">Delete note</button>
-    </td>
-  </tr>
-  </tbody>
-</table>
+<div class="notes-container-wrapper">
+  <div class="notes-container" *ngIf="notes.length">
+    <div class="notes">
+      <div class="notes-row">
+        <div class="notes-column" *ngFor="let note of notes">
+          <div class="notes-card">
+            <h3 class="notes-card-header">{{note.header | shorten:15 }}</h3>
+            <p class="notes-card-description">{{note.description | shorten:15 }}</p>
+            <!--<div class="notes-card-tags" *ngFor="note.tags"></div>-->
+            <button mat-raised-button (click)="openEditModal(note.id, note.header, note.description)">Edit note</button>
+            <button mat-raised-button (click)="deleteNote(note.id)">Delete note</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

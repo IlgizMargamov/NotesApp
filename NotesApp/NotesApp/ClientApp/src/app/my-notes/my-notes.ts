@@ -1,18 +1,19 @@
 ﻿import {Component, Inject} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {AddNoteModal} from "./add-note/add-note";
-import {MatDialog} from "@angular/material/dialog";
+import {DialogPosition, MatDialog} from "@angular/material/dialog";
 import {EditNoteModal} from "./edit-note/edit-note";
 
 @Component({
   selector: 'app-my-notes',
-  templateUrl: './my-notes.html'
+  templateUrl: './my-notes.html',
+  styleUrls: ['./my-notes.css']
 })
 export class MyNotesComponent {
   public notes: Note[] = []
 
   constructor(private readonly http: HttpClient, @Inject('BASE_URL') private readonly baseUrl: string, public dialog: MatDialog) {
-    http.get<Note[]>(baseUrl+"note").subscribe(result => {
+    http.get<Note[]>(baseUrl+"note/get").subscribe(result => {
       this.notes = result;
     }, error => console.error(error))
   }
@@ -23,6 +24,7 @@ export class MyNotesComponent {
         header: "",
         description: ""
       },
+      disableClose: true, maxHeight: "100", maxWidth:"100"
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -46,13 +48,13 @@ export class MyNotesComponent {
   }
 
   deleteNote(id: number){
-    this.http.delete<boolean>(this.baseUrl+"note?id="+id).subscribe(x=>{
+    this.http.delete<boolean>(this.baseUrl+"note/Delete?id="+id).subscribe(x=>{
       location.reload();
     }, error => console.error(error))
   }
 }
 
-interface Note {
+export interface Note {
   id: number;
   date: string;
   header: string;
