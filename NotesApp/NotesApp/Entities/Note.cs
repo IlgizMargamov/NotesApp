@@ -7,5 +7,5 @@ public class Note
     public string Description { get; set; }
     
     public DateTime CreationDateTime { get; set; }
-    public ICollection<Tag> Tags { get; } = new List<Tag>();
+    public List<NoteTag> NoteTags { get; } = new();
 }

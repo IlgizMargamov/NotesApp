@@ -1,0 +1,20 @@
+﻿<button mat-raised-button [matMenuTriggerFor]="menu" aria-label="Set a tag">
+  Set tag
+</button>
+<mat-menu #menu="matMenu" >
+  <div *ngFor="let tag of tags">
+    <button mat-raised-button data-[id]="tag.id">{{tag.header}}</button>
+  </div>
+  <button mat-menu-item>
+    <mat-icon>dialpad</mat-icon>
+    <span>Redial</span>
+  </button>
+  <button mat-menu-item >
+    <mat-icon>voicemail</mat-icon>
+    <span>Check voice mail</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>notifications_off</mat-icon>
+    <span>Disable alerts</span>
+  </button>
+</mat-menu>

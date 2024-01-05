@@ -8,6 +8,7 @@ public class DataContext : DbContext
     #region Sets
 
     public DbSet<Note> Notes { get; set; }
+    public DbSet<NoteTag> NoteTag { get; set; }
     
     public DbSet<Tag> Tags { get; set; }
 

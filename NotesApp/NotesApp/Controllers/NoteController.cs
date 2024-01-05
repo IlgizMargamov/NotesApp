@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NotesApp.DTO;
 using NotesApp.DTO.Note;
 using NotesApp.Entities;
@@ -9,9 +10,16 @@ namespace NotesApp.Controllers;
 public class NoteController : BaseController
 {
     [HttpGet]
-    public IEnumerable<Note> Get()
+    public IEnumerable<NoteDTO> Get()
     {
-        return _context.Notes.ToArray();
+        var notes = _context.Notes.Select(x=>new NoteDTO
+        {
+            Id = x.Id,
+            Header = x.Header,
+            Description = x.Description,
+            Tags = x.NoteTags.Select(x=>x.Tag).ToList()
+        }).ToArray();
+        return notes;
     }
 
     [HttpPost]
@@ -74,13 +82,42 @@ public class NoteController : BaseController
             return false;
         }
 
-        var note = _context.Notes.FirstOrDefault(x => x.Id == noteId);
-        if (note == null || note.Tags.Any(x => x.Id == tagId))
+        var note = _context.Notes.Include(x=>x.NoteTags).FirstOrDefault(x => x.Id == noteId);
+        if (note == null || note.NoteTags.ToList().Any(x => x.TagId == tagId))
         {
             return false;
         }
 
-        note.Tags.Add(tag);
+        note.NoteTags.Add(new NoteTag
+        {
+            TagId = tagId
+        });
+        _context.SaveChanges();
+        return true;
+    }
+    
+    [HttpPatch]
+    public bool RemoveTag(int noteId, int tagId)
+    {
+        var tag = _context.Tags.FirstOrDefault(x => x.Id == tagId);
+        if (tag == null)
+        {
+            return false;
+        }
+
+        var note = _context.Notes.Include(x=>x.NoteTags).FirstOrDefault(x => x.Id == noteId);
+        if (note == null || note.NoteTags.All(x => x.TagId != tagId))
+        {
+            return false;
+        }
+
+        var noteTag = note.NoteTags.FirstOrDefault(x => x.TagId == tagId);
+        if (noteTag == null)
+        {
+            return false;
+        }
+        
+        _context.NoteTag.Remove(noteTag);
         _context.SaveChanges();
         return true;
     }

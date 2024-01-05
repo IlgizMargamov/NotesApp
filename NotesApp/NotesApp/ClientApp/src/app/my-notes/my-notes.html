@@ -12,7 +12,19 @@
           <div class="notes-card">
             <h3 class="notes-card-header">{{note.header | shorten:15 }}</h3>
             <p class="notes-card-description">{{note.description | shorten:15 }}</p>
-            <!--<div class="notes-card-tags" *ngFor="note.tags"></div>-->
+            <div class="notes-card-tags-wrapper" *ngIf="note.tags?.length">
+              <div class="notes-card-tags" *ngFor="let noteTag of note.tags">
+                <div class="notes-card-tag" (click)="removeTag(note.id, noteTag.id)">{{noteTag.header}}</div>
+              </div>
+            </div>
+            <button mat-raised-button [matMenuTriggerFor]="menu" aria-label="Set a tag">
+              Set tag
+            </button>
+            <mat-menu #menu="matMenu" >
+              <div *ngFor="let tag of this.tags">
+                <button mat-raised-button (click)="setTagToNote(note.id, tag.id)">{{tag.header}}</button>
+              </div>
+            </mat-menu>
             <button mat-raised-button (click)="openEditModal(note.id, note.header, note.description)">Edit note</button>
             <button mat-raised-button (click)="deleteNote(note.id)">Delete note</button>
           </div>

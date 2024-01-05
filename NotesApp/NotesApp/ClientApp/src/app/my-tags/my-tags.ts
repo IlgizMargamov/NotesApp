@@ -13,7 +13,7 @@ export class MyTagsComponent {
   public tags: Tag[] = []
 
   constructor(private readonly http: HttpClient, @Inject('BASE_URL') private readonly baseUrl: string, public dialog: MatDialog) {
-    http.get<Tag[]>(baseUrl+"tag/get").subscribe(result => {
+    http.get<Tag[]>(baseUrl + "tag/get").subscribe(result => {
       this.tags = result;
     }, error => console.error(error))
   }
@@ -39,7 +39,7 @@ export class MyTagsComponent {
   }
 }
 
-interface Tag {
+export interface Tag {
   id: number;
   header: string;
   noteId: number;

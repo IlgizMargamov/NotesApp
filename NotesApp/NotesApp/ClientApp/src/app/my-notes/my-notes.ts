@@ -1,8 +1,9 @@
 ﻿import {Component, Inject} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {AddNoteModal} from "./add-note/add-note";
-import {DialogPosition, MatDialog} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {EditNoteModal} from "./edit-note/edit-note";
+import {Tag} from "../my-tags/my-tags";
 
 @Component({
   selector: 'app-my-notes',
@@ -11,10 +12,14 @@ import {EditNoteModal} from "./edit-note/edit-note";
 })
 export class MyNotesComponent {
   public notes: Note[] = []
-
-  constructor(private readonly http: HttpClient, @Inject('BASE_URL') private readonly baseUrl: string, public dialog: MatDialog) {
+  public tags: Tag[] = []
+  constructor(private readonly http: HttpClient, @Inject('BASE_URL') private readonly baseUrl: string, public dialog: MatDialog,
+  ) {
     http.get<Note[]>(baseUrl+"note/get").subscribe(result => {
       this.notes = result;
+    }, error => console.error(error))
+    http.get<Tag[]>(baseUrl + "tag/get").subscribe(result => {
+      this.tags = result;
     }, error => console.error(error))
   }
 
@@ -52,6 +57,18 @@ export class MyNotesComponent {
       location.reload();
     }, error => console.error(error))
   }
+
+  setTagToNote(noteId: number, tagId: number) {
+    this.http.patch<boolean>(this.baseUrl+`note/SetTag?noteId=${noteId}&tagId=${tagId}`, null).subscribe(x=>{
+      location.reload();
+    }, error => console.error(error))
+  }
+
+  removeTag(noteId: number, tagId: number) {
+    this.http.patch<boolean>(this.baseUrl+`note/RemoveTag?noteId=${noteId}&tagId=${tagId}`, null).subscribe(x=>{
+      location.reload();
+    }, error => console.error(error))
+  }
 }
 
 export interface Note {
@@ -59,4 +76,5 @@ export interface Note {
   date: string;
   header: string;
   description: string;
+  tags: Tag[]
 }
