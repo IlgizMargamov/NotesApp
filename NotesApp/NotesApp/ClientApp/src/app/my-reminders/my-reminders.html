@@ -12,7 +12,7 @@
           <div class="notes-card">
             <h3 class="notes-card-header">{{reminder.note.header | shorten:15 }}</h3>
             <p class="notes-card-description">{{reminder.dueDateTime}}</p>
-            <button mat-raised-button (click)="deleteNote(reminder.id)">Delete note</button>
+            <button mat-raised-button (click)="deleteReminder(reminder.id)">Delete note</button>
           </div>
         </div>
       </div>

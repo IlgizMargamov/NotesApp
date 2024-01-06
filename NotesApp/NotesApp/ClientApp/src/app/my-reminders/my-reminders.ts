@@ -33,7 +33,7 @@ export class MyRemindersComponent {
     });
   }
 
-  deleteNote(id: number){
+  deleteReminder(id: number){
     this.http.delete<boolean>(this.baseUrl+"reminder/Delete?id="+id).subscribe(x=>{
       location.reload();
     }, error => console.error(error))
