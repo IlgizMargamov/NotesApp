@@ -14,11 +14,11 @@ export class MyRemindersComponent {
   public notes: Note[] = [];
 
   constructor(private readonly http: HttpClient, @Inject('BASE_URL') private readonly baseUrl: string, public dialog: MatDialog) {
-    http.get<Reminder[]>(baseUrl+"reminder/get").subscribe(result => {
+    http.get<Reminder[]>(baseUrl + "reminder/get").subscribe(result => {
       this.reminders = result;
     }, error => console.error(error))
 
-    http.get<Note[]>(baseUrl+"note/get").subscribe(result => {
+    http.get<Note[]>(baseUrl + "note/get").subscribe(result => {
       this.notes = result;
     }, error => console.error(error))
   }
@@ -31,7 +31,7 @@ export class MyRemindersComponent {
         dueTime: new Date().getTime().toString(),
         notes: this.notes
       },
-      disableClose: true, maxHeight: "100", maxWidth:"100"
+      disableClose: true, maxHeight: "100", maxWidth: "100"
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -40,15 +40,15 @@ export class MyRemindersComponent {
     });
   }
 
-  deleteReminder(id: number){
-    this.http.delete<boolean>(this.baseUrl+"reminder/Delete?id="+id).subscribe(x=>{
+  deleteReminder(id: number) {
+    this.http.delete<boolean>(this.baseUrl + "reminder/Delete?id=" + id).subscribe(x => {
       location.reload();
     }, error => console.error(error))
   }
 
   getTime(dueDateTime: string) {
     let date = new Date(dueDateTime);
-    return date.toLocaleDateString(navigator.language)+" "+ date.toLocaleTimeString()
+    return date.toLocaleDateString(navigator.language) + " " + date.toLocaleTimeString()
   }
 }
 

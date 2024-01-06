@@ -23,7 +23,7 @@ export class MyTagsComponent {
       data: {
         header: "",
       },
-      disableClose: true, maxHeight: "100", maxWidth:"100"
+      disableClose: true, maxHeight: "100", maxWidth: "100"
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -32,8 +32,8 @@ export class MyTagsComponent {
     });
   }
 
-  deleteNote(id: number){
-    this.http.delete<boolean>(this.baseUrl+"tag/Delete?id="+id).subscribe(x=>{
+  deleteNote(id: number) {
+    this.http.delete<boolean>(this.baseUrl + "tag/Delete?id=" + id).subscribe(x => {
       location.reload();
     }, error => console.error(error))
   }

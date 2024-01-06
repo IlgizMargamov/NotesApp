@@ -12,12 +12,13 @@ export interface DialogData {
 @Component({
   selector: 'add-tag-modal',
   templateUrl: './add-tag.html',
+  styleUrls: ['./add-tag.css']
 })
 export class AddTagModal {
   constructor(private readonly http: HttpClient,
-    @Inject('BASE_URL') private readonly baseUrl: string,
-    public dialogRef: MatDialogRef<AddTagModal>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+              @Inject('BASE_URL') private readonly baseUrl: string,
+              public dialogRef: MatDialogRef<AddTagModal>,
+              @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) {
     this.baseUrl = baseUrl;
   }
@@ -26,15 +27,15 @@ export class AddTagModal {
     this.dialogRef.close();
   }
 
-  onAddClick():void{
-    if (this.data.header.length==0){
+  onAddClick(): void {
+    if (this.data.header.length == 0) {
       alert("Please enter header");
       return;
     }
 
-    this.http.post<boolean>(this.baseUrl+"tag/Post", {
+    this.http.post<boolean>(this.baseUrl + "tag/Post", {
       Header: this.data.header,
-    }).subscribe(x=>{
+    }).subscribe(x => {
       location.reload();
     }, error => console.error(error))
   }

@@ -12,32 +12,31 @@ export interface DialogData {
 }
 
 @Component({
-  selector: 'dialog-overview-example-dialog',
+  selector: 'edit-note-modal',
   templateUrl: './edit-note.html',
 })
 export class EditNoteModal {
-  private readonly baseUrl: string;
-  constructor(private readonly httpClient: HttpClient,@Inject('BASE_URL') baseUrl: string,
-    public dialogRef: MatDialogRef<EditNoteModal>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  constructor(private readonly httpClient: HttpClient,
+              @Inject('BASE_URL') private readonly baseUrl: string,
+              public dialogRef: MatDialogRef<EditNoteModal>,
+              @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) {
-    this.baseUrl = baseUrl;
   }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  onEditClick():void{
-    if (this.data.header.length==0 || this.data.description.length==0){
+  onEditClick(): void {
+    if (this.data.header.length == 0 || this.data.description.length == 0) {
       alert("Please enter header and description");
       return;
     }
-    this.httpClient.patch<boolean>(this.baseUrl+"note/Edit", {
+    this.httpClient.patch<boolean>(this.baseUrl + "note/Edit", {
       id: this.data.id,
       header: this.data.header,
       description: this.data.description
-    }).subscribe(x=>{
+    }).subscribe(x => {
       location.reload();
     }, error => console.error(error))
   }

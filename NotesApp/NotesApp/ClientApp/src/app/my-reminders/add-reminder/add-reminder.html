@@ -1,18 +1,4 @@
-﻿<style>
-  .modal-backdrop{
-    background: rgba(0,0,0,.32);
-    height: 10px;
-  }
-  .modal-wrapper{
-    background: rgb(137 132 132);
-  }
-  .menu{
-    position: fixed;
-    z-index: 0;
-  }
-</style>
-
-<div class="modal-backdrop">
+﻿<div class="modal-backdrop">
   <div class="modal-wrapper">
     <div class="modal-header">
       <h5 class="modal-title" id="modalLabel">Add reminder</h5>
@@ -24,8 +10,10 @@
       ></button>
     </div>
     <div class="modal-body">
-      <input type="date" [(ngModel)]="data.dueDate"/>
-      <input type="time" [(ngModel)]="data.dueTime"/>
+      <label for="datePicker">Choose date</label>
+      <input id="datePicker" type="date" [(ngModel)]="data.dueDate"/>
+      <label for="timePicker">Choose time</label>
+      <input id="timePicker" type="time" [(ngModel)]="data.dueTime"/>
       <button mat-raised-button [matMenuTriggerFor]="menu" aria-label="Set a tag">
         Set note
       </button>
@@ -38,12 +26,6 @@
         <label>Selected note: </label>
         <label>{{this.data.noteHeader}}</label>
       </div>
-      <!--
-            <label for="header">Header</label>
-            <input id="header" type="text" [(ngModel)]="data.header">
-            <label for="description">Description</label>
-            <input id="description" type="text" [(ngModel)]="data.description">
-      -->
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="onNoClick()">

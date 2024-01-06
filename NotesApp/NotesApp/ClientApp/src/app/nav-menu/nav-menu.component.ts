@@ -13,14 +13,17 @@ export class NavMenuComponent {
   constructor(private readonly http: HttpClient, @Inject('BASE_URL') private readonly baseUrl: string) {
     this.checkReminders(http, baseUrl);
 
-    let fiveMinutes = 1000*60*5;
-    setInterval(()=>{
+    let fiveMinutes = 1000 * 60 * 5;
+    setInterval(() => {
       this.checkReminders(http, baseUrl);
     }, fiveMinutes)
-    let i =0;
-    setInterval(()=>{console.log(`${i++} seconds passed`)}, 1000)
+    let i = 0;
+    setInterval(() => {
+      console.log(`${i++} seconds passed`)
+    }, 1000)
 
   }
+
   private checkReminders(http: HttpClient, baseUrl: string) {
     http.get<Reminder[]>(baseUrl + "reminder/CheckDates").subscribe(result => {
       for (const reminder of result) {
@@ -30,6 +33,7 @@ export class NavMenuComponent {
       }
     }, error => console.error(error))
   }
+
   collapse() {
     this.isExpanded = false;
   }

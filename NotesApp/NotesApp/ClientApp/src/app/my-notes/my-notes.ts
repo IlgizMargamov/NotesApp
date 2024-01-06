@@ -13,9 +13,10 @@ import {Tag} from "../my-tags/my-tags";
 export class MyNotesComponent {
   public notes: Note[] = []
   public tags: Tag[] = []
+
   constructor(private readonly http: HttpClient, @Inject('BASE_URL') private readonly baseUrl: string, public dialog: MatDialog,
   ) {
-    http.get<Note[]>(baseUrl+"note/get").subscribe(result => {
+    http.get<Note[]>(baseUrl + "note/get").subscribe(result => {
       this.notes = result;
     }, error => console.error(error))
     http.get<Tag[]>(baseUrl + "tag/get").subscribe(result => {
@@ -29,7 +30,7 @@ export class MyNotesComponent {
         header: "",
         description: ""
       },
-      disableClose: true, maxHeight: "100", maxWidth:"100"
+      disableClose: true, maxHeight: "100", maxWidth: "100"
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -52,20 +53,20 @@ export class MyNotesComponent {
     });
   }
 
-  deleteNote(id: number){
-    this.http.delete<boolean>(this.baseUrl+"note/Delete?id="+id).subscribe(x=>{
+  deleteNote(id: number) {
+    this.http.delete<boolean>(this.baseUrl + "note/Delete?id=" + id).subscribe(x => {
       location.reload();
     }, error => console.error(error))
   }
 
   setTagToNote(noteId: number, tagId: number) {
-    this.http.patch<boolean>(this.baseUrl+`note/SetTag?noteId=${noteId}&tagId=${tagId}`, null).subscribe(x=>{
+    this.http.patch<boolean>(this.baseUrl + `note/SetTag?noteId=${noteId}&tagId=${tagId}`, null).subscribe(x => {
       location.reload();
     }, error => console.error(error))
   }
 
   removeTag(noteId: number, tagId: number) {
-    this.http.patch<boolean>(this.baseUrl+`note/RemoveTag?noteId=${noteId}&tagId=${tagId}`, null).subscribe(x=>{
+    this.http.patch<boolean>(this.baseUrl + `note/RemoveTag?noteId=${noteId}&tagId=${tagId}`, null).subscribe(x => {
       location.reload();
     }, error => console.error(error))
   }

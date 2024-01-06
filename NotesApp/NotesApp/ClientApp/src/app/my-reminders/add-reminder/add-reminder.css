@@ -1,0 +1,13 @@
+﻿.modal-backdrop{
+  background: rgba(0,0,0,.32);
+  height: 10px;
+}
+
+.modal-wrapper{
+  background: rgb(137 132 132);
+}
+
+.menu{
+  position: fixed;
+  z-index: 0;
+}
