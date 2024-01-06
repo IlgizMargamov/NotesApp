@@ -3,7 +3,9 @@ import {HttpClient} from "@angular/common/http";
 import {AddNoteModal} from "./add-note/add-note";
 import {MatDialog} from "@angular/material/dialog";
 import {EditNoteModal} from "./edit-note/edit-note";
-import {Tag} from "../my-tags/my-tags";
+import {ClientHelper} from "../helpers/ClientHelper";
+import {Note} from "./note";
+import {Tag} from "../my-tags/tag";
 
 @Component({
   selector: 'app-my-notes',
@@ -16,10 +18,10 @@ export class MyNotesComponent {
 
   constructor(private readonly http: HttpClient, @Inject('BASE_URL') private readonly baseUrl: string, public dialog: MatDialog,
   ) {
-    http.get<Note[]>(baseUrl + "note/get").subscribe(result => {
+    ClientHelper.getNotes(http, baseUrl).subscribe(result => {
       this.notes = result;
     }, error => console.error(error))
-    http.get<Tag[]>(baseUrl + "tag/get").subscribe(result => {
+    ClientHelper.getTags(http, baseUrl).subscribe(result => {
       this.tags = result;
     }, error => console.error(error))
   }
@@ -32,11 +34,6 @@ export class MyNotesComponent {
       },
       disableClose: true, maxHeight: "100", maxWidth: "100"
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      //this.animal = result;
-    });
   }
 
   openEditModal(id: number, header: string, description: string): void {
@@ -47,35 +44,24 @@ export class MyNotesComponent {
         description: description
       },
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
   }
 
   deleteNote(id: number) {
-    this.http.delete<boolean>(this.baseUrl + "note/Delete?id=" + id).subscribe(x => {
+    ClientHelper.deleteNote(this.http, this.baseUrl, id).subscribe(x => {
       location.reload();
     }, error => console.error(error))
   }
 
   setTagToNote(noteId: number, tagId: number) {
-    this.http.patch<boolean>(this.baseUrl + `note/SetTag?noteId=${noteId}&tagId=${tagId}`, null).subscribe(x => {
+    ClientHelper.setTagToNote(this.http, this.baseUrl, noteId, tagId).subscribe(x => {
       location.reload();
     }, error => console.error(error))
   }
 
   removeTag(noteId: number, tagId: number) {
-    this.http.patch<boolean>(this.baseUrl + `note/RemoveTag?noteId=${noteId}&tagId=${tagId}`, null).subscribe(x => {
+    ClientHelper.removeTagFromNote(this.http, this.baseUrl, noteId, tagId).subscribe(x => {
       location.reload();
     }, error => console.error(error))
   }
 }
 
-export interface Note {
-  id: number;
-  date: string;
-  header: string;
-  description: string;
-  tags: Tag[]
-}

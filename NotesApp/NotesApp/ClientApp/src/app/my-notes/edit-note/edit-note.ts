@@ -4,8 +4,9 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import {HttpClient} from "@angular/common/http";
+import {ClientHelper} from "../../helpers/ClientHelper";
 
-export interface DialogData {
+export interface EditNoteDialogData {
   header: string;
   description: string;
   id: number;
@@ -19,7 +20,7 @@ export class EditNoteModal {
   constructor(private readonly httpClient: HttpClient,
               @Inject('BASE_URL') private readonly baseUrl: string,
               public dialogRef: MatDialogRef<EditNoteModal>,
-              @Inject(MAT_DIALOG_DATA) public data: DialogData,
+              @Inject(MAT_DIALOG_DATA) public data: EditNoteDialogData,
   ) {
   }
 
@@ -32,11 +33,8 @@ export class EditNoteModal {
       alert("Please enter header and description");
       return;
     }
-    this.httpClient.patch<boolean>(this.baseUrl + "note/Edit", {
-      id: this.data.id,
-      header: this.data.header,
-      description: this.data.description
-    }).subscribe(x => {
+
+    ClientHelper.patchNote(this.httpClient, this.baseUrl, this.data).subscribe(x => {
       location.reload();
     }, error => console.error(error))
   }

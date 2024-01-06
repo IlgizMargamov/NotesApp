@@ -12,12 +12,12 @@ public class NoteController : BaseController
     [HttpGet]
     public IEnumerable<NoteDTO> Get()
     {
-        var notes = _context.Notes.Select(x=>new NoteDTO
+        var notes = _context.Notes.Select(x => new NoteDTO
         {
             Id = x.Id,
             Header = x.Header,
             Description = x.Description,
-            Tags = x.NoteTags.Select(x=>x.Tag).ToList()
+            Tags = x.NoteTags.Select(x => x.Tag).ToList()
         }).ToArray();
         return notes;
     }
@@ -82,7 +82,7 @@ public class NoteController : BaseController
             return false;
         }
 
-        var note = _context.Notes.Include(x=>x.NoteTags).FirstOrDefault(x => x.Id == noteId);
+        var note = _context.Notes.Include(x => x.NoteTags).FirstOrDefault(x => x.Id == noteId);
         if (note == null || note.NoteTags.ToList().Any(x => x.TagId == tagId))
         {
             return false;
@@ -95,7 +95,7 @@ public class NoteController : BaseController
         _context.SaveChanges();
         return true;
     }
-    
+
     [HttpPatch]
     public bool RemoveTag(int noteId, int tagId)
     {
@@ -105,7 +105,7 @@ public class NoteController : BaseController
             return false;
         }
 
-        var note = _context.Notes.Include(x=>x.NoteTags).FirstOrDefault(x => x.Id == noteId);
+        var note = _context.Notes.Include(x => x.NoteTags).FirstOrDefault(x => x.Id == noteId);
         if (note == null || note.NoteTags.All(x => x.TagId != tagId))
         {
             return false;
@@ -116,7 +116,7 @@ public class NoteController : BaseController
         {
             return false;
         }
-        
+
         _context.NoteTag.Remove(noteTag);
         _context.SaveChanges();
         return true;

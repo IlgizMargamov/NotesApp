@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NotesApp.DTO.Reminder;
 using NotesApp.Entities;
@@ -12,7 +11,7 @@ public class ReminderController : BaseController
     [HttpGet]
     public IEnumerable<Reminder> Get()
     {
-        return _context.Reminders.Include(x=>x.Note).ToList();
+        return _context.Reminders.Include(x => x.Note).ToList();
     }
 
     [HttpGet]
@@ -20,7 +19,7 @@ public class ReminderController : BaseController
     {
         var now = DateTime.Now;
         var result = new List<Reminder>();
-        foreach (var reminder in _context.Reminders.Include(x=>x.Note).Where(x=>x.DueDateTime < now).ToList())
+        foreach (var reminder in _context.Reminders.Include(x => x.Note).Where(x => x.DueDateTime < now).ToList())
         {
             result.Add(reminder);
             _context.Remove(reminder);
@@ -29,7 +28,7 @@ public class ReminderController : BaseController
         _context.SaveChanges();
         return result;
     }
-    
+
     [HttpPost]
     public bool Create(CreateReminderInput input)
     {
@@ -38,12 +37,12 @@ public class ReminderController : BaseController
             return false;
         }
 
-        var timeInLocal = input.DueDateTime.AddMinutes(input.TimeZoneOffset*-1);
-        if (timeInLocal - DateTime.Now <= new TimeSpan(0, 1,0))
+        var timeInLocal = input.DueDateTime.AddMinutes(input.TimeZoneOffset * -1);
+        if (timeInLocal - DateTime.Now <= new TimeSpan(0, 1, 0))
         {
             return false;
         }
-        
+
         _context.Add(new Reminder
         {
             NoteId = input.NoteId,

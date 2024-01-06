@@ -11,7 +11,7 @@
         <div class="notes-column" *ngFor="let tag of tags">
           <div class="notes-card">
             <h3 class="notes-card-header">{{tag.header | shorten:15 }}</h3>
-            <button mat-raised-button (click)="deleteNote(tag.id)">Delete tag</button>
+            <button mat-raised-button (click)="deleteTag(tag.id)">Delete tag</button>
           </div>
         </div>
       </div>

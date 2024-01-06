@@ -1,7 +1,8 @@
 import {Component, Inject} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Tag} from "../my-tags/my-tags";
-import {Reminder} from "../my-reminders/my-reminders";
+
+import {Reminder} from "../my-reminders/reminder";
+import {Tag} from "../my-tags/tag";
 
 @Component({
   selector: 'app-home',

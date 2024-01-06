@@ -1,6 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Reminder} from "../my-reminders/my-reminders";
+import {ClientHelper} from "../helpers/ClientHelper";
+import {Reminder} from "../my-reminders/reminder";
 
 @Component({
   selector: 'app-nav-menu',
@@ -25,7 +26,7 @@ export class NavMenuComponent {
   }
 
   private checkReminders(http: HttpClient, baseUrl: string) {
-    http.get<Reminder[]>(baseUrl + "reminder/CheckDates").subscribe(result => {
+    ClientHelper.checkReminders(http, baseUrl).subscribe(result => {
       for (const reminder of result) {
         const note = reminder.note;
         alert(`A note: ${note.header} with description: ${note.description} has been reminded`);

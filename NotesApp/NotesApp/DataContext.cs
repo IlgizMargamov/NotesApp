@@ -16,7 +16,6 @@ public class DataContext : DbContext
 
     #endregion
     
-    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseNpgsql("User ID=postgres;Password=Aa123456;Host=localhost;Port=5432;Database=notesApp;Pooling=true;Connection Lifetime=0;");

@@ -4,9 +4,10 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import {HttpClient} from "@angular/common/http";
-import {Note} from "../../my-notes/my-notes";
+import {ClientHelper} from "../../helpers/ClientHelper";
+import {Note} from "../../my-notes/note";
 
-export interface DialogData {
+export interface AddReminderDialogData {
   noteId: number;
   dueDate: string
   dueTime: string;
@@ -23,7 +24,7 @@ export class AddReminderModal {
   constructor(private readonly http: HttpClient,
               @Inject('BASE_URL') private readonly baseUrl: string,
               public dialogRef: MatDialogRef<AddReminderModal>,
-              @Inject(MAT_DIALOG_DATA) public data: DialogData,
+              @Inject(MAT_DIALOG_DATA) public data: AddReminderDialogData,
   ) {
   }
 
@@ -38,12 +39,8 @@ export class AddReminderModal {
     }
 
     const date = new Date(this.data.dueDate + " " + this.data.dueTime)
-    this.http.post<boolean>(this.baseUrl + "reminder/Create", {
-      noteId: this.data.noteId,
-      dueDateTime: date,
-      timeZoneOffset: date.getTimezoneOffset()
 
-    }).subscribe(x => {
+    ClientHelper.createReminder(this.http, this.baseUrl, this.data, date).subscribe(x => {
       location.reload();
     }, error => console.error(error))
   }

@@ -4,8 +4,9 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import {HttpClient} from "@angular/common/http";
+import {ClientHelper} from "../../helpers/ClientHelper";
 
-export interface DialogData {
+export interface AddNoteDialogData {
   header: string;
   description: string;
 }
@@ -19,7 +20,7 @@ export class AddNoteModal {
   constructor(private readonly http: HttpClient,
               @Inject('BASE_URL') private readonly baseUrl: string,
               public dialogRef: MatDialogRef<AddNoteModal>,
-              @Inject(MAT_DIALOG_DATA) public data: DialogData,
+              @Inject(MAT_DIALOG_DATA) public data: AddNoteDialogData,
   ) {
   }
 
@@ -33,10 +34,7 @@ export class AddNoteModal {
       return;
     }
 
-    this.http.post<boolean>(this.baseUrl + "note/Post", {
-      Header: this.data.header,
-      Description: this.data.description
-    }).subscribe(x => {
+    ClientHelper.createNote(this.http, this.baseUrl, this.data).subscribe(x => {
       location.reload();
     }, error => console.error(error))
   }

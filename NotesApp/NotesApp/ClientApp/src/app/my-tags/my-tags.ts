@@ -1,8 +1,9 @@
 ﻿import {Component, Inject} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {DialogPosition, MatDialog} from "@angular/material/dialog";
-import {Note} from "../my-notes/my-notes";
+import {MatDialog} from "@angular/material/dialog";
 import {AddTagModal} from "./add-tag/add-tag";
+import {ClientHelper} from "../helpers/ClientHelper";
+import {Tag} from "./tag";
 
 @Component({
   selector: 'app-my-tags',
@@ -13,7 +14,7 @@ export class MyTagsComponent {
   public tags: Tag[] = []
 
   constructor(private readonly http: HttpClient, @Inject('BASE_URL') private readonly baseUrl: string, public dialog: MatDialog) {
-    http.get<Tag[]>(baseUrl + "tag/get").subscribe(result => {
+    ClientHelper.getTags(this.http, this.baseUrl).subscribe(result => {
       this.tags = result;
     }, error => console.error(error))
   }
@@ -25,23 +26,12 @@ export class MyTagsComponent {
       },
       disableClose: true, maxHeight: "100", maxWidth: "100"
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      //this.animal = result;
-    });
   }
 
-  deleteNote(id: number) {
-    this.http.delete<boolean>(this.baseUrl + "tag/Delete?id=" + id).subscribe(x => {
+  deleteTag(id: number) {
+    ClientHelper.deleteTag(this.http, this.baseUrl, id).subscribe(x => {
       location.reload();
     }, error => console.error(error))
   }
 }
 
-export interface Tag {
-  id: number;
-  header: string;
-  noteId: number;
-  note: Note;
-}
