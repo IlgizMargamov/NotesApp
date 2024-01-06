@@ -11,8 +11,8 @@
         <div class="notes-column" *ngFor="let reminder of reminders">
           <div class="notes-card">
             <h3 class="notes-card-header">{{reminder.note.header | shorten:15 }}</h3>
-            <p class="notes-card-description">{{reminder.dueDateTime}}</p>
-            <button mat-raised-button (click)="deleteReminder(reminder.id)">Delete note</button>
+            <p class="notes-card-description">{{getTime(reminder.dueDateTime)}}</p>
+            <button mat-raised-button (click)="deleteReminder(reminder.id)">Delete reminder</button>
           </div>
         </div>
       </div>

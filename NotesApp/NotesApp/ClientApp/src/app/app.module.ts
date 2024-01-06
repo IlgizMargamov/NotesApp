@@ -18,7 +18,6 @@ import {AddReminderModal} from "./my-reminders/add-reminder/add-reminder";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
-import {MenuIconsExample} from "./helpers/menuComponent/menu.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
@@ -36,8 +35,6 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
     MyTagsComponent,
     AddTagModal,
-
-    MenuIconsExample
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

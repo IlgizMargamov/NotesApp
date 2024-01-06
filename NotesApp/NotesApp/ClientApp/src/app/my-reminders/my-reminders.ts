@@ -11,10 +11,15 @@ import {Note} from "../my-notes/my-notes";
 })
 export class MyRemindersComponent {
   public reminders: Reminder[] = []
+  public notes: Note[] = [];
 
   constructor(private readonly http: HttpClient, @Inject('BASE_URL') private readonly baseUrl: string, public dialog: MatDialog) {
     http.get<Reminder[]>(baseUrl+"reminder/get").subscribe(result => {
       this.reminders = result;
+    }, error => console.error(error))
+
+    http.get<Note[]>(baseUrl+"note/get").subscribe(result => {
+      this.notes = result;
     }, error => console.error(error))
   }
 
@@ -22,7 +27,9 @@ export class MyRemindersComponent {
     const dialogRef = this.dialog.open(AddReminderModal, {
       data: {
         noteId: 0,
-        dueDateTime: ""
+        dueDate: new Date().getDate().toString(),
+        dueTime: new Date().getTime().toString(),
+        notes: this.notes
       },
       disableClose: true, maxHeight: "100", maxWidth:"100"
     });
@@ -38,9 +45,14 @@ export class MyRemindersComponent {
       location.reload();
     }, error => console.error(error))
   }
+
+  getTime(dueDateTime: string) {
+    let date = new Date(dueDateTime);
+    return date.toLocaleDateString(navigator.language)+" "+ date.toLocaleTimeString()
+  }
 }
 
-interface Reminder {
+export interface Reminder {
   id: number;
   noteId: string;
   note: Note

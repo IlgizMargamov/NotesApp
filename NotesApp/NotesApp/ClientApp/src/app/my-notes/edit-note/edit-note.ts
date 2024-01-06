@@ -16,14 +16,12 @@ export interface DialogData {
   templateUrl: './edit-note.html',
 })
 export class EditNoteModal {
-  private readonly httpClient: HttpClient;
   private readonly baseUrl: string;
-  constructor(http: HttpClient,@Inject('BASE_URL') baseUrl: string,
+  constructor(private readonly httpClient: HttpClient,@Inject('BASE_URL') baseUrl: string,
     public dialogRef: MatDialogRef<EditNoteModal>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) {
     this.baseUrl = baseUrl;
-    this.httpClient = http;
   }
 
   onNoClick(): void {
